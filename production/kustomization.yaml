@@ -1,0 +1,64 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: governify-production
+resources:
+  # Reviewed public base; updates are deliberate.
+  - https://github.com/governify-next/k8s-infrastructure//base?ref=3dc95dac1400ac96b7f4a3a312a9fe2e58927eb9
+patches:
+  - path: remove-headlamp.yaml
+  - path: public-urls.yaml
+  - target:
+      kind: Ingress
+      name: governify-next
+    path: ingress.yaml
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          kubernetes.io/os: linux
+          kubernetes.io/arch: amd64
+images:
+  - name: governifynext/authenticator
+    newTag: v1.1.0
+    digest: sha256:ff36e9c0a0b05d5769a7f74e543409f6bdbffe16b0b0dfbf46c0f7991f467131
+  - name: governifynext/scope-manager
+    newTag: v1.1.0
+    digest: sha256:0c0eeaa01f122a26c25da2f5f86b7c89adc71401fbefed6b13447dd5ec186b1f
+  - name: governifynext/registry
+    newTag: v1.1.0
+    digest: sha256:d6bd9a0ea303ec7281b82f860b22049506e601bf0631773ff8348cd8b3e36a9f
+  - name: governifynext/computer
+    newTag: v1.1.0
+    digest: sha256:b91ef430f47b5d899573f42949d56f60568ed78f6ca38114ef8df70b1ece05c0
+  - name: governifynext/fetcher
+    newTag: v1.1.0
+    digest: sha256:f4e93cc07199ffbd090b1defd4dbf45252f4c149a787bd1df4f879d12de221d3
+  - name: governifynext/director
+    newTag: v1.1.0
+    digest: sha256:60640454826297aa819604ef8cc921341f9bb1d164b5175b187da79a6c3e63d7
+  - name: governifynext/join-backend
+    newTag: v1.1.0
+    digest: sha256:cf1bc876d4e854ab61e9d69e1fba1ff997cd54976001ccc33a4dffb5312e5424
+  - name: governifynext/join-frontend
+    newTag: v1.1.0
+    digest: sha256:a238d7cae11cb67daa0539d2286c81148db2b660a5b2d1c0131acead8abc03ec
+  - name: governifynext/frontend
+    newTag: v1.1.0
+    digest: sha256:730e11c2b33c688e033c23486cc5b4ed274d1194c09a92b9d3fb99e11b8624bc
+  - name: governifynext/reporter
+    newTag: develop
+    digest: sha256:286348ad6efb29486ebb713d6b0df8297e93c8085303d5d50cf16b83b53658a2
+  - name: mongo
+    newTag: "8.0"
+    digest: sha256:6c108efd306c66a7eb58e0b4042c2fcffb4a4980dac111039c59fd714db6a69b
+  - name: redis
+    newTag: "8.2"
+    digest: sha256:7d1e4ce8b9395088377ab382d1f6cfdbd13b3690795198a0399ab8d683064d6d
+  - name: influxdb
+    newTag: 3.9-core
+    digest: sha256:3bf542fdc462b568738795087233407686932fdfdec369c86860760df9b5c1cc
+  - name: grafana/grafana
+    newTag: 12.3.0
+    digest: sha256:70d9599b186ce287be0d2c5ba9a78acb2e86c1a68c9c41449454d0fc3eeb84e8

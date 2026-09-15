@@ -1,0 +1,11 @@
+# Runtime credentials are supplied directly to the production cluster.
+secrets.yaml
+secrets.*.yaml
+!secrets.example.yaml
+.env
+.env.*
+*.pem
+*.key
+kubeconfig*
+rendered.yaml
+.DS_Store

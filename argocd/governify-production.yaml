@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: governify-production
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/governify-next/production-deployment.git
+    targetRevision: main
+    path: production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: governify-production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - FailOnSharedResource=true

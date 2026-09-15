@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-authenticator
+spec:
+  template:
+    spec:
+      containers:
+        - name: authenticator
+          env:
+            - name: OIDC_REDIRECT_URI
+              value: "https://authenticator.next.governify.io/api/v1/users/oidc/callback"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-scope-manager
+spec:
+  template:
+    spec:
+      containers:
+        - name: scope-manager
+          env:
+            - name: OIDC_REDIRECT_URI
+              value: "https://scope-manager.next.governify.io/api/v1/users/oidc/callback"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-join-backend
+spec:
+  template:
+    spec:
+      containers:
+        - name: join-backend
+          env:
+            - name: FRONTEND_URL
+              value: "https://join.next.governify.io"
+            - name: GOVERNIFY_FRONTEND_URL
+              value: "https://frontend.next.governify.io"
+            - name: GITHUB_CALLBACK_URL
+              value: "https://join-backend.next.governify.io/api/v1/integrations/github/callback"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-join-frontend
+spec:
+  template:
+    spec:
+      containers:
+        - name: join-frontend
+          env:
+            - name: GOVERNIFY_FRONTEND_URL
+              value: "https://frontend.next.governify.io"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-reporter
+spec:
+  template:
+    spec:
+      containers:
+        - name: reporter
+          env:
+            - name: GRAFANA_PUBLIC_URL
+              value: "https://grafana.next.governify.io"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-grafana
+spec:
+  template:
+    spec:
+      containers:
+        - name: grafana
+          env:
+            - name: GF_SERVER_ROOT_URL
+              value: "https://grafana.next.governify.io"

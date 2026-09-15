@@ -1,0 +1,134 @@
+- op: add
+  path: /metadata/annotations
+  value:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: default
+- op: replace
+  path: /spec
+  value:
+    ingressClassName: traefik
+    tls:
+      - hosts:
+          - frontend.next.governify.io
+          - authenticator.next.governify.io
+          - scope-manager.next.governify.io
+          - registry.next.governify.io
+          - computer.next.governify.io
+          - fetcher.next.governify.io
+          - reporter.next.governify.io
+          - director.next.governify.io
+          - join-backend.next.governify.io
+          - join.next.governify.io
+          - grafana.next.governify.io
+    rules:
+      - host: frontend.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-frontend
+                  port:
+                    number: 3000
+      - host: authenticator.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-authenticator
+                  port:
+                    number: 5800
+      - host: scope-manager.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-scope-manager
+                  port:
+                    number: 5801
+      - host: registry.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-registry
+                  port:
+                    number: 5802
+      - host: computer.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-computer
+                  port:
+                    number: 5803
+      - host: fetcher.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-fetcher
+                  port:
+                    number: 5804
+      - host: reporter.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-reporter
+                  port:
+                    number: 5805
+      - host: director.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-director
+                  port:
+                    number: 5806
+      - host: join-backend.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-join-backend
+                  port:
+                    number: 5807
+      - host: join.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-join-frontend
+                  port:
+                    number: 3000
+      - host: grafana.next.governify.io
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: governify-grafana
+                  port:
+                    number: 3000
