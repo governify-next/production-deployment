@@ -7,7 +7,7 @@ This repository prepares the deployment. Creating or cloning it does not deploy 
 ## What is pinned
 
 `production/kustomization.yaml` imports the public infrastructure base at commit
-`3dc95dac1400ac96b7f4a3a312a9fe2e58927eb9`.
+`b6e57e102ac51b8965328a6561dfeef24d02e269`.
 
 The following services use the published `v1.1.0` images, with immutable SHA-256 digests: authenticator, scope-manager, registry, computer, fetcher, director, join-backend, join-frontend, frontend, and reporter.
 
@@ -15,7 +15,7 @@ Grafana uses `governifynext/reporter-grafana:v1.1.0`, published alongside Report
 
 MongoDB 8.0, Redis 8.2, and InfluxDB 3.9-core are also pinned by digest. The complete image references live in one place: `production/kustomization.yaml`.
 
-The `grafana/grafana` image entry uses `newName` to replace the stock image in the pinned public base with `governifynext/reporter-grafana`. Keep Reporter and its Grafana image on matching release tags. Reporter v1.1.0 was released from develop commit `b0ac588abb2fb59ec8b9b8148341852ffa331d8b` on 2026-09-16.
+The pinned public base uses `governifynext/reporter-grafana`; the production image entry pins its release tag and digest directly. Keep Reporter and its Grafana image on matching release tags. Reporter v1.1.0 was released from develop commit `b0ac588abb2fb59ec8b9b8148341852ffa331d8b` on 2026-09-16.
 
 Application source is the released code, including the feature set present in `develop` when v1.1.0 was prepared. Later feature-branch changes are not included.
 

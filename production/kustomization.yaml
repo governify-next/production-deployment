@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: governify-production
 resources:
   # Reviewed public base; updates are deliberate.
-  - https://github.com/governify-next/k8s-infrastructure//base?ref=3dc95dac1400ac96b7f4a3a312a9fe2e58927eb9
+  - https://github.com/governify-next/k8s-infrastructure//base?ref=b6e57e102ac51b8965328a6561dfeef24d02e269
 patches:
   - path: remove-headlamp.yaml
   - path: public-urls.yaml
@@ -59,7 +59,6 @@ images:
   - name: influxdb
     newTag: 3.9-core
     digest: sha256:3bf542fdc462b568738795087233407686932fdfdec369c86860760df9b5c1cc
-  - name: grafana/grafana
-    newName: governifynext/reporter-grafana
+  - name: governifynext/reporter-grafana
     newTag: v1.1.0
     digest: sha256:2408b40b6a09fb0a1dc93b89c34e916f135a5cf8ed9db2eab6e16686283464b8
