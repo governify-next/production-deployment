@@ -48,8 +48,8 @@ images:
     newTag: v1.1.0
     digest: sha256:730e11c2b33c688e033c23486cc5b4ed274d1194c09a92b9d3fb99e11b8624bc
   - name: governifynext/reporter
-    newTag: develop
-    digest: sha256:286348ad6efb29486ebb713d6b0df8297e93c8085303d5d50cf16b83b53658a2
+    newTag: v1.1.0
+    digest: sha256:9f32192e67e8a07f0658cc162c98dcda33333513e459b13419d7420911ebf03f
   - name: mongo
     newTag: "8.0"
     digest: sha256:6c108efd306c66a7eb58e0b4042c2fcffb4a4980dac111039c59fd714db6a69b
@@ -60,5 +60,6 @@ images:
     newTag: 3.9-core
     digest: sha256:3bf542fdc462b568738795087233407686932fdfdec369c86860760df9b5c1cc
   - name: grafana/grafana
-    newTag: 12.3.0
-    digest: sha256:70d9599b186ce287be0d2c5ba9a78acb2e86c1a68c9c41449454d0fc3eeb84e8
+    newName: governifynext/reporter-grafana
+    newTag: v1.1.0
+    digest: sha256:2408b40b6a09fb0a1dc93b89c34e916f135a5cf8ed9db2eab6e16686283464b8

@@ -9,13 +9,13 @@ This repository prepares the deployment. Creating or cloning it does not deploy 
 `production/kustomization.yaml` imports the public infrastructure base at commit
 `3dc95dac1400ac96b7f4a3a312a9fe2e58927eb9`.
 
-The following services use the published `v1.1.0` images, with immutable SHA-256 digests: authenticator, scope-manager, registry, computer, fetcher, director, join-backend, join-frontend, and frontend.
+The following services use the published `v1.1.0` images, with immutable SHA-256 digests: authenticator, scope-manager, registry, computer, fetcher, director, join-backend, join-frontend, frontend, and reporter.
 
-Reporter has no tagged release. Its `develop` image is fixed to digest
-`sha256:286348ad6efb29486ebb713d6b0df8297e93c8085303d5d50cf16b83b53658a2`,
-resolved on 2026-09-15. This image will not follow later pushes to `develop`.
+Grafana uses `governifynext/reporter-grafana:v1.1.0`, published alongside Reporter by its release workflow and also pinned by digest. This image is based on Grafana 13.0.1 and includes the Governify compliance ranking panel. The plugin lives under `/opt/governify/plugins`, outside the persistent data volume; the image enables loading that unsigned plugin explicitly.
 
-MongoDB 8.0, Redis 8.2, InfluxDB 3.9-core, and Grafana 12.3.0 are also pinned by digest. The complete image references live in one place: `production/kustomization.yaml`.
+MongoDB 8.0, Redis 8.2, and InfluxDB 3.9-core are also pinned by digest. The complete image references live in one place: `production/kustomization.yaml`.
+
+The `grafana/grafana` image entry uses `newName` to replace the stock image in the pinned public base with `governifynext/reporter-grafana`. Keep Reporter and its Grafana image on matching release tags. Reporter v1.1.0 was released from develop commit `b0ac588abb2fb59ec8b9b8148341852ffa331d8b` on 2026-09-16.
 
 Application source is the released code, including the feature set present in `develop` when v1.1.0 was prepared. Later feature-branch changes are not included.
 
