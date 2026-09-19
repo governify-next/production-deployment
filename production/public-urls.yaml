@@ -40,6 +40,8 @@ spec:
               value: "https://frontend.next.governify.io"
             - name: GITHUB_CALLBACK_URL
               value: "https://join-backend.next.governify.io/api/v1/integrations/github/callback"
+            - name: GITHUB_APP_SLUG
+              value: "governify-next-production"
 ---
 apiVersion: apps/v1
 kind: Deployment
