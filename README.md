@@ -21,6 +21,10 @@ Application source is the released code, including the feature set present in `d
 
 ## Production addresses
 
+Join Backend sets `RESTRICT_ONBOARDING_PER_REPOSITORY=true` in `production/public-urls.yaml`. Multiple drafts for a repository are allowed, but only one onboarding may publish it; retries resume that original publication. The development infrastructure sets the flag to `false`.
+
+This setting requires a Join Backend release containing the repository uniqueness index. Update the pinned Join Backend image tag and digest when that release is available. Stop existing Join workers before changing the flag. Existing duplicate publications must be resolved before enabling the index; otherwise startup fails.
+
 | Service | URL |
 | --- | --- |
 | frontend | https://frontend.next.governify.io |

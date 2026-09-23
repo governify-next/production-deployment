@@ -34,6 +34,8 @@ spec:
       containers:
         - name: join-backend
           env:
+            - name: RESTRICT_ONBOARDING_PER_REPOSITORY
+              value: "true"
             - name: FRONTEND_URL
               value: "https://join.next.governify.io"
             - name: GOVERNIFY_FRONTEND_URL
