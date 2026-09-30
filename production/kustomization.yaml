@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: governify-production
 resources:
   # Reviewed public base; updates are deliberate.
-  - https://github.com/governify-next/k8s-infrastructure//base?ref=b6e57e102ac51b8965328a6561dfeef24d02e269
+  - https://github.com/governify-next/k8s-infrastructure//base?ref=c278478f66cf0224a4b4f180ea1687f2015e3532
 patches:
   - path: remove-headlamp.yaml
   - path: public-urls.yaml
@@ -21,35 +21,35 @@ patches:
           kubernetes.io/arch: amd64
 images:
   - name: governifynext/authenticator
-    newTag: v1.2.0
-    digest: sha256:ace39944b74f5f91d9bc596f69005701c233c6f9e96cd50d6f62bdae83d470a1
+    newTag: v1.3.0
+    digest: sha256:290c87430f4b58b2aefb7375f5b0571d26b36b297916ff5c4a11853ba50246bc
   - name: governifynext/scope-manager
-    newTag: v1.2.0
-    digest: sha256:7d137fea059e0a9e5e27c1c7e36ac4ac7dd989389287cb86e6086d44d1f4c5e5
+    newTag: v1.3.0
+    digest: sha256:6aa85e69504446351ea6418337302b1c642e71f02aebce1166e7f3d4082233e5
   - name: governifynext/registry
-    newTag: v1.1.1
-    digest: sha256:1135427eeb71a6e1dbbc429b9c39e807e0de5f72b050ca73df3ae64b2acc9cef
+    newTag: v1.2.0
+    digest: sha256:567df9a1c8655041395df572232263cf174ccaa12f9ed6bd4f6c2029a97e9793
   - name: governifynext/computer
-    newTag: v1.1.1
-    digest: sha256:4901c44087a98c420c9cf4ff17de3b4d61e71d6369a973792be25669a8e8858c
+    newTag: v1.2.0
+    digest: sha256:ed4e81a2b7ffa9bd8c1042634283fc41bfa09abbfa1e0f56bd7a93da441522d3
   - name: governifynext/fetcher
-    newTag: v1.2.1
-    digest: sha256:3995f460150d8fb94a208adae25b85039451afbd37de3fb60b3c1a0cf46d4f64
+    newTag: v1.3.0
+    digest: sha256:c1832e8cc9f8aef2a915941a95b848151282fd350514200ad3da1985ac4cfece
   - name: governifynext/director
-    newTag: v1.1.1
-    digest: sha256:c62bd434e1df2a5bfc177cc67d85c955513e617d992ba0f7525d3e8a31888b05
+    newTag: v1.2.0
+    digest: sha256:07766cda67c74e736e55ff1b9e11d2463e5fa19de36ecec8254ef6c7c17f4f54
   - name: governifynext/join-backend
-    newTag: v1.2.0
-    digest: sha256:9d5909e26f10cfe98597f4c84ad7fdbef3b8458e6ffd382aa2b1f32f038115d4
+    newTag: v1.3.0
+    digest: sha256:d7ffa0278c792bc11ff7daa1ff7ddf26057b98f34be87a3da5394047d7935f79
   - name: governifynext/join-frontend
-    newTag: v1.1.1
-    digest: sha256:f3f40249bca51ce19a5472ccfd349583141387cfb773b06c4e2524057907dea8
-  - name: governifynext/frontend
     newTag: v1.2.0
-    digest: sha256:013bee76b3527a43c8a1c70bf1f40cd2b0da899d642abc6d135b070844065986
+    digest: sha256:b64807d3f5aff272205a16ea122567fc88dda945837cafac66a0ff600bc41008
+  - name: governifynext/frontend
+    newTag: v1.4.0
+    digest: sha256:1679d171900256062c8fb5b3302f53d5f520bb861428fa13b9a63bc4641d6623
   - name: governifynext/reporter
-    newTag: v1.1.1
-    digest: sha256:3f266b7bc047ac504edf9d9c7c176f702e975ddf9dfae0445c5a4c3f349ae096
+    newTag: v1.2.0
+    digest: sha256:22216d19bffcc99a505ceda81a8b5f06506b50b6154e4742762d4c7a83c66c39
   - name: mongo
     newTag: "8.0"
     digest: sha256:6c108efd306c66a7eb58e0b4042c2fcffb4a4980dac111039c59fd714db6a69b
@@ -60,5 +60,5 @@ images:
     newTag: 3.9-core
     digest: sha256:3bf542fdc462b568738795087233407686932fdfdec369c86860760df9b5c1cc
   - name: governifynext/reporter-grafana
-    newTag: v1.1.1
-    digest: sha256:815b39f43c26cc91e1dcd29569cc84853675fea304325862059f97308062138c
+    newTag: v1.2.0
+    digest: sha256:90c221e3c3a58f479135993f960cf01b1933b9ebce9d1b2a9c2b86e59c629c3d
