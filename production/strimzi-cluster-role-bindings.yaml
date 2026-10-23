@@ -1,0 +1,45 @@
+# Reuse cluster-wide Strimzi roles, with bindings unique to production.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: governify-production-strimzi-cluster-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: strimzi-cluster-operator-global
+subjects:
+  - kind: ServiceAccount
+    name: strimzi-cluster-operator
+    namespace: governify-production
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: governify-production-strimzi-kafka-broker-delegation
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: strimzi-kafka-broker
+subjects:
+  - kind: ServiceAccount
+    name: strimzi-cluster-operator
+    namespace: governify-production
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: governify-production-strimzi-kafka-client-delegation
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: strimzi-kafka-client
+subjects:
+  - kind: ServiceAccount
+    name: strimzi-cluster-operator
+    namespace: governify-production
