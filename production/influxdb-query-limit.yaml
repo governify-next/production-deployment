@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: governify-influxdb3
+spec:
+  template:
+    spec:
+      containers:
+        - name: influxdb3
+          env:
+            - name: INFLUXDB3_QUERY_FILE_LIMIT
+              value: "16384"

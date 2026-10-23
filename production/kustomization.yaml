@@ -7,6 +7,7 @@ resources:
 patches:
   - path: remove-headlamp.yaml
   - path: public-urls.yaml
+  - path: influxdb-query-limit.yaml
   - target:
       kind: Ingress
       name: governify-next
