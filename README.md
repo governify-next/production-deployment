@@ -19,35 +19,6 @@ The pinned public base uses `governifynext/reporter-grafana`; the production ima
 
 Application source is the released code, including the feature set present in `develop` when v1.1.0 was prepared. Later feature-branch changes are not included.
 
-## InfluxDB historical query guard
-
-`production/influxdb-query-limit.yaml` adds only
-`INFLUXDB3_QUERY_FILE_LIMIT=16384` to `governify-influxdb3`. The production overlay
-keeps its pinned k8s base and image digests; it does not inherit a new base just
-to obtain the preproduction setting. Manifests in `production/kustomization.yaml`
-are the authoritative pin list.
-
-The finite setting passed an isolated 98-day / 14,112-file / 423,360-state
-Grafana SQL/FlightSQL fixture. It does not guarantee arbitrary raw annual graphs.
-`65536` remains an experimental annual-query profile, not enabled in this overlay;
-the annual raw fixture hit Grafana 13.0.1's independent FlightSQL row ceiling.
-No dashboards, application queries, authentication, data, retention or licenses
-are changed. See [issue #3](https://github.com/governify-next/ai-toolkit/issues/3).
-
-Before integration, render the overlay, validate the same profile locally and in
-preproduction, confirm actual query/file volume and resource budgets, and prepare
-data protection, writer retry checks and recovery. The Argo CD Application tracks
-`main/production` with automated sync, prune and selfHeal: if active, merging the
-change may immediately restart the one-replica `Recreate` InfluxDB Deployment.
-Confirm the trigger and maintenance window before the human integration decision.
-
-Every server read, backup, rollout, verification, retry and recovery needs its
-specific authorization. Do not directly patch the live workload or bypass GitOps.
-Recovery reverts this configuration through the repository, preserving the image
-and PVC/data; the earlier file limit can restore the historical-query failure.
-A configuration revert cannot recover missing writes. Do not delete/reinitialize
-volumes or silently change the pinned base as a recovery step.
-
 ## Production addresses
 
 Join Backend sets `RESTRICT_ONBOARDING_PER_REPOSITORY=true` in `production/public-urls.yaml`. Multiple drafts for a repository are allowed, but only one onboarding may publish it; retries resume that original publication. The development infrastructure sets the flag to `false`.
