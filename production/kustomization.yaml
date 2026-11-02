@@ -9,6 +9,29 @@ transformers:
 patches:
   - path: remove-headlamp.yaml
   - path: public-urls.yaml
+  # Preserve live pod templates while promoting the Strimzi ownership changes.
+  - target:
+      kind: Deployment
+      name: governify-director
+    patch: |-
+      - op: test
+        path: /spec/template/spec/containers/0/env/18/name
+        value: OTEL_SERVICE_NAME
+      - op: add
+        path: /spec/template/spec/containers/0/env/18
+        value: {name: FETCH_RESULT_POLLING_MAX_ATTEMPTS, value: "10"}
+      - op: add
+        path: /spec/template/spec/containers/0/env/19
+        value: {name: FETCH_RESULT_POLLING_INTERVAL_MS, value: "5000"}
+  - target:
+      kind: Deployment
+      name: governify-scope-manager
+    patch: |-
+      - op: test
+        path: /spec/template/spec/containers/0/env/5/name
+        value: REGISTRY_SERVICE_URL
+      - op: remove
+        path: /spec/template/spec/containers/0/env/5
   - target:
       kind: (Cluster)?RoleBinding
       labelSelector: app=strimzi
