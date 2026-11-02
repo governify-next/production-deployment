@@ -7,7 +7,7 @@ This repository prepares the deployment. Creating or cloning it does not deploy 
 ## What is pinned
 
 `production/kustomization.yaml` imports the public infrastructure base at commit
-`b6e57e102ac51b8965328a6561dfeef24d02e269`.
+`1523f63bff2b6b1856393317c48adca5df564c11`.
 
 The following services use the published `v1.1.0` images, with immutable SHA-256 digests: authenticator, scope-manager, registry, computer, fetcher, director, join-backend, join-frontend, frontend, and reporter.
 
@@ -18,6 +18,10 @@ MongoDB 8.0, Redis 8.2, and InfluxDB 3.9-core are also pinned by digest. The com
 The pinned public base uses `governifynext/reporter-grafana`; the production image entry pins its release tag and digest directly. Keep Reporter and its Grafana image on matching release tags. Reporter v1.1.0 was released from develop commit `b0ac588abb2fb59ec8b9b8148341852ffa331d8b` on 2026-09-16.
 
 Application source is the released code, including the feature set present in `develop` when v1.1.0 was prepared. Later feature-branch changes are not included.
+
+Production has its own Strimzi operator, RBAC, Kafka broker and 50 GiB storage.
+Only the Strimzi 1.3.0 CRDs are shared through `argocd/strimzi-crds.yaml`, installed
+once per cluster. Kafka is included in the same pinned base as the workloads.
 
 ## Production addresses
 
@@ -45,11 +49,11 @@ The ingress lists each hostname explicitly. It uses the existing Traefik `websec
 
 ## Cluster requirements
 
-- The existing k3s Traefik controller and its `default` certificate resolver must be configured.
+- The default overlay requires Traefik and its `default` certificate resolver. For standard Kubernetes, use `platform/kubernetes` with a default ingress controller and the `governify-production-tls` TLS Secret.
 - The published service images support Linux amd64. The overlay selects Linux amd64 nodes.
-- A default StorageClass and 85 GiB of additional PVC capacity are required: MongoDB 20 GiB, Redis 5 GiB, InfluxDB 50 GiB, and Grafana 10 GiB.
+- A default StorageClass and 135 GiB of PVC capacity are required: MongoDB 20 GiB, Redis 5 GiB, InfluxDB 50 GiB, Grafana 10 GiB, and Kafka 50 GiB.
 - The namespace has its own application services, data services, persistent volumes through PVCs, and runtime Secret.
-- Headlamp resources and their cluster-admin binding are omitted. The existing installation continues to own the shared dashboard and Traefik configuration.
+- Headlamp resources and their cluster-admin binding are omitted. Production uses the cluster's ingress controller.
 
 ## Preview without deploying
 
@@ -59,7 +63,7 @@ From the repository root, with kubectl installed and GitHub access:
 kubectl kustomize production
 ```
 
-The build fetches the pinned public base. It renders one namespace, 14 Services, 14 Deployments, four PVCs, and one Ingress.
+The build fetches the pinned public base and upstream Strimzi manifests. Strimzi creates Kafka's pod and PVC.
 
 ## Prepare runtime configuration when ready
 
@@ -80,7 +84,7 @@ The inherited GitHub App slug is `governify-next`. If production uses a separate
 ## Deploy with Argo CD when ready
 
 1. Connect this private repository in Argo CD using a read-only deploy key or read-only GitHub credential. Keep that credential in Argo CD, outside this repository.
-2. Select the actual production cluster context explicitly.
+2. Select the actual production cluster context explicitly. If absent, apply `argocd/strimzi-crds.yaml` once per cluster and wait for its CRDs to be Established.
 3. Create the production namespace and runtime Secret before applying the Application:
 
 ```sh
@@ -91,6 +95,8 @@ kubectl --context "$PRODUCTION_CONTEXT" apply -f argocd/governify-production.yam
 ```
 
 The Application tracks this repository's `main` branch and `production` directory. Automatic sync, pruning, and self-healing start as soon as the Application is applied. Shared-resource detection helps catch accidental overlap with another Argo CD Application.
+
+For standard Kubernetes, set the Application's `spec.source.path` to `platform/kubernetes`.
 
 The existing Image Updater matches only the development Application `governify-next`; keep the new Application `governify-production` excluded.
 

@@ -1,0 +1,7 @@
+- op: remove
+  path: /metadata/annotations
+- op: remove
+  path: /spec/ingressClassName
+- op: add
+  path: /spec/tls/0/secretName
+  value: governify-production-tls

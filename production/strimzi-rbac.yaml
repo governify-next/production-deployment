@@ -1,0 +1,16 @@
+apiVersion: builtin
+kind: PrefixSuffixTransformer
+metadata:
+  name: production-strimzi-rbac
+# Use new binding names rather than mutating existing immutable roleRefs.
+prefix: governify-production.
+fieldSpecs:
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRole
+    path: metadata/name
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    path: metadata/name
+  - group: rbac.authorization.k8s.io
+    kind: RoleBinding
+    path: metadata/name
